@@ -852,8 +852,8 @@ export default function BlackHousingLanding() {
             <div className="space-y-6 sm:space-y-8">
               <div className="space-y-4 sm:space-y-6">
                 {[
-                  { icon: Mail, title: "Email Us", detail: "hello@blackhousing.ng" },
-                  { icon: Phone, title: "Call Us", detail: "+234 800 000 0000" },
+                  { icon: Mail, title: "Email Us", detail: "blackhousing65@gmail.com" },
+                  { icon: Phone, title: "Call Us", detail: "+2349161746356" },
                   { icon: MessageCircle, title: "WhatsApp", detail: "Join our community chat" }
                 ].map((contact, idx) => {
                   const IconComponent = contact.icon;

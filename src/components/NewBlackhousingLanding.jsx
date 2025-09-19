@@ -19,6 +19,7 @@ export default function BlackHousingLanding() {
 
   const WHATSAPP_GROUP = "https://chat.whatsapp.com/KKB2uxJN58CAQuqka4wvs6";
   const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
+
   useEffect(() => {
     setIsLoaded(true);
     
@@ -51,7 +52,7 @@ export default function BlackHousingLanding() {
     { number: "24/7", label: "Support", icon: Clock }
   ];
 
-  // Enhanced email validation
+  // Enhanced email validation from the second document
   const isValidEmail = (email) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
@@ -211,584 +212,890 @@ export default function BlackHousingLanding() {
         transition={{ duration: 1.5, repeat: Infinity }}
       />
 
-      {/* Animated background gradient */}
-      <motion.div 
-        className="fixed inset-0 opacity-20"
-        style={{ y: yBg }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-blue-900/20 to-teal-900/20" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(139,69,19,0.1),transparent_50%)]" />
-      </motion.div>
-
-      {/* Floating particles */}
-      {[...Array(20)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="fixed w-1 h-1 bg-white/30 rounded-full pointer-events-none"
-          style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-          }}
-          animate={{
-            y: [0, -30, 0],
-            opacity: [0.3, 1, 0.3],
-          }}
-          transition={{
-            duration: 3 + Math.random() * 2,
-            repeat: Infinity,
-            delay: Math.random() * 2,
-          }}
-        />
-      ))}
-
-      {/* Navigation */}
-      <motion.nav 
-        className="fixed top-0 w-full z-40 backdrop-blur-sm bg-black/20 border-b border-white/10"
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.8 }}
-      >
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <motion.div 
-              className="flex items-center space-x-3"
-              whileHover={{ scale: 1.05 }}
-            >
-              <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-orange-600 rounded-lg flex items-center justify-center">
-                <Home className="w-5 h-5 text-black" />
+      {/* Minimal Header */}
+      <header className="fixed top-0 left-0 right-0 z-40 bg-black/90 backdrop-blur-xl border-b border-gray-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
+          <nav className="flex items-center justify-between">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-lg flex items-center justify-center">
+                <Home className="w-4 h-4 sm:w-6 sm:h-6 text-black" />
               </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">
-                BlackHousing
-              </span>
-            </motion.div>
+              <div className="text-lg sm:text-xl font-bold tracking-wider">BLACKHOUSING</div>
+            </div>
             
-            <motion.a
-              href={WHATSAPP_GROUP}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-2 rounded-full font-medium hover:shadow-lg hover:shadow-green-500/25 transition-all duration-300 flex items-center space-x-2"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <MessageCircle className="w-4 h-4" />
-              <span>Join Community</span>
-            </motion.a>
-          </div>
-        </div>
-      </motion.nav>
+            <div className="hidden md:flex items-center gap-6 lg:gap-8">
+              <a href="#features" className="hover:text-white/70 transition-colors text-sm">Features</a>
+              <a href="#how" className="hover:text-white/70 transition-colors text-sm">How It Works</a>
+              <a href="#testimonials" className="hover:text-white/70 transition-colors text-sm">Reviews</a>
+              <a href="#contact" className="hover:text-white/70 transition-colors text-sm">Contact</a>
+              
+              <a 
+                href={WHATSAPP_GROUP} 
+                target="_blank" 
+                rel="noreferrer" 
+                className="inline-flex items-center gap-2 px-4 py-2 bg-white text-black rounded-lg hover:bg-gray-200 transition-colors duration-200 text-sm font-medium"
+              >
+                <MessageCircle className="w-4 h-4" />
+                <span className="hidden lg:inline">Join Community</span>
+              </a>
+            </div>
 
-      {/* Hero Section */}
-      <motion.section 
+            {/* Mobile menu button */}
+            <div className="md:hidden">
+              <a 
+                href={WHATSAPP_GROUP} 
+                target="_blank" 
+                rel="noreferrer" 
+                className="inline-flex items-center gap-2 px-3 py-2 bg-white text-black rounded-lg text-sm font-medium"
+              >
+                <MessageCircle className="w-4 h-4" />
+              </a>
+            </div>
+          </nav>
+        </div>
+      </header>
+
+      {/* Hero section - Mobile optimized */}
+      <motion.section
         ref={heroRef}
-        className="relative pt-32 pb-20 px-6 min-h-screen flex items-center"
+        className="h-screen sm:h-screen relative overflow-hidden"
         style={{ scale }}
       >
-        <div className="max-w-7xl mx-auto">
-          <motion.div 
-            className="text-center max-w-4xl mx-auto"
-            style={{ y: yText }}
-          >
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="mb-8"
-            >
-              <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-amber-500/20 to-orange-500/20 backdrop-blur-sm border border-amber-500/30 rounded-full px-6 py-3 mb-8">
-                <Sparkles className="w-4 h-4 text-amber-400" />
-                <span className="text-amber-400 font-medium">Beta Launch Coming Soon</span>
-              </div>
-            </motion.div>
+        {/* Minimal background */}
+        <motion.div
+          className="absolute inset-0 bg-black"
+          style={{ y: yBg }}
+        />
 
-            <motion.h1 
-              className="text-5xl md:text-7xl font-black mb-8 leading-tight"
-              initial={{ opacity: 0, y: 50 }}
+        {/* Subtle grid pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                             linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+            backgroundSize: '50px 50px'
+          }} />
+        </div>
+
+        {/* Floating geometric shapes */}
+        <div 
+          className="absolute w-32 h-32 sm:w-64 sm:h-64 border border-white/5 rounded-full transition-transform duration-1000 ease-out"
+          style={{ 
+            top: '20%', 
+            left: '10%',
+            transform: `translate(${mousePosition.x * 0.01}px, ${mousePosition.y * 0.01}px)`
+          }} 
+        />
+        <div 
+          className="absolute w-24 h-24 sm:w-48 sm:h-48 border border-white/10 rounded-full transition-transform duration-1000 ease-out"
+          style={{ 
+            bottom: '30%', 
+            right: '15%',
+            transform: `translate(${mousePosition.x * -0.005}px, ${mousePosition.y * -0.005}px)`
+          }} 
+        />
+
+        {/* Main content */}
+        <motion.div
+          className="relative h-full flex flex-col items-center justify-center text-center px-4 sm:px-6"
+          style={{ y: yText }}
+        >
+          {/* Logo */}
+          <motion.div
+            className="mb-6 sm:mb-12 relative"
+            initial={{ scale: 0, rotate: -180, opacity: 0 }}
+            animate={isInView ? { scale: 1, rotate: 0, opacity: 1 } : {}}
+            transition={{ duration: 2, type: "spring", stiffness: 100, delay: 0.5 }}
+          >
+            <div className="w-16 h-16 sm:w-24 sm:h-24 bg-white rounded-full flex items-center justify-center">
+              <Home className="w-8 h-8 sm:w-12 sm:h-12 text-black" />
+            </div>
+          </motion.div>
+
+          {/* Main heading */}
+          <motion.div className="mb-6 sm:mb-8 max-w-6xl">
+            <motion.h1
+              className="text-4xl sm:text-6xl md:text-8xl font-thin tracking-wider mb-2 sm:mb-4"
+              initial={{ opacity: 0, y: 100 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.4 }}
+              transition={{ duration: 1.5, delay: 1 }}
             >
-              <span className="bg-gradient-to-r from-white via-amber-200 to-orange-400 bg-clip-text text-transparent">
-                Find Your Perfect
-              </span>
-              <br />
-              <span className="bg-gradient-to-r from-amber-400 via-orange-500 to-red-500 bg-clip-text text-transparent">
-                Student Housing
-              </span>
+              BLACKHOUSING
             </motion.h1>
+            
+            <motion.div
+              className="h-0.5 w-20 sm:w-32 bg-white mx-auto mb-4 sm:mb-6"
+              initial={{ scaleX: 0 }}
+              animate={isInView ? { scaleX: 1 } : {}}
+              transition={{ duration: 2, delay: 2.5 }}
+            />
 
-            <motion.p 
-              className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed"
-              initial={{ opacity: 0, y: 50 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.6 }}
-            >
-              The first AI-powered platform connecting UNILAG students directly with verified property owners. 
-              <span className="text-amber-400 font-semibold"> Zero middlemen, zero stress, zero scams.</span>
-            </motion.p>
-
-            {/* Waitlist Form */}
-            <motion.div 
-              className="max-w-md mx-auto mb-8"
-              initial={{ opacity: 0, y: 50 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.8 }}
-            >
-              <form onSubmit={submitWaitlist} className="space-y-4">
-                <div className="relative">
-                  <input
-                    type="email"
-                    value={waitEmail}
-                    onChange={(e) => setWaitEmail(e.target.value)}
-                    placeholder="Enter your email to get early access"
-                    className="w-full px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 transition-all duration-300"
-                    disabled={status.wait === 'loading'}
-                  />
-                  <Mail className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                </div>
-                
-                <motion.button
-                  type="submit"
-                  disabled={status.wait === 'loading'}
-                  className="w-full bg-gradient-to-r from-amber-500 to-orange-600 text-black font-bold py-4 rounded-2xl hover:shadow-lg hover:shadow-amber-500/25 transition-all duration-300 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                  whileHover={{ scale: status.wait === 'loading' ? 1 : 1.02 }}
-                  whileTap={{ scale: status.wait === 'loading' ? 1 : 0.98 }}
-                >
-                  {status.wait === 'loading' ? (
-                    <>
-                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-black"></div>
-                      <span>Joining...</span>
-                    </>
-                  ) : (
-                    <>
-                      <span>Join Early Access</span>
-                      <ArrowRight className="w-5 h-5" />
-                    </>
-                  )}
-                </motion.button>
-
-                {/* Status Messages */}
-                {status.wait && status.wait !== 'loading' && (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className={`text-center p-3 rounded-lg ${
-                      status.wait === 'success' 
-                        ? 'bg-green-500/20 border border-green-500/30 text-green-400' 
-                        : 'bg-red-500/20 border border-red-500/30 text-red-400'
-                    }`}
-                  >
-                    {status.wait === 'success' ? (
-                      <div className="flex items-center justify-center space-x-2">
-                        <CheckCircle className="w-4 h-4" />
-                        <span>Welcome to the waitlist! We'll notify you when we launch.</span>
-                      </div>
-                    ) : (
-                      <span>{status.wait}</span>
-                    )}
-                  </motion.div>
-                )}
-              </form>
-
-              <p className="text-sm text-gray-400 mt-4 text-center">
-                🚀 Be among the first 100 users to get <span className="text-amber-400 font-semibold">3 months free premium</span>
-              </p>
-            </motion.div>
-
-            {/* Social Proof */}
-            <motion.div 
-              className="flex flex-wrap items-center justify-center gap-8 text-sm text-gray-400"
+            <motion.p
+              className="text-sm sm:text-xl md:text-2xl font-light tracking-widest opacity-80"
               initial={{ opacity: 0 }}
-              animate={isInView ? { opacity: 1 } : {}}
-              transition={{ duration: 0.8, delay: 1 }}
+              animate={isInView ? { opacity: 0.8 } : {}}
+              transition={{ duration: 1, delay: 3 }}
             >
-              <div className="flex items-center space-x-2">
-                <div className="flex -space-x-2">
-                  {[1,2,3,4,5].map(i => (
-                    <div key={i} className="w-8 h-8 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full border-2 border-black flex items-center justify-center text-xs font-bold text-black">
-                      {String.fromCharCode(64 + i)}
-                    </div>
-                  ))}
-                </div>
-                <span>1,247+ students already joined</span>
-              </div>
-              <div className="flex items-center space-x-1">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 text-amber-400 fill-current" />
-                ))}
-                <span>4.9/5 rating</span>
-              </div>
-            </motion.div>
+              Premium Student Accommodation
+            </motion.p>
           </motion.div>
-        </div>
+        </motion.div>
       </motion.section>
 
-      {/* Stats Section */}
-      <motion.section 
-        className="py-20 px-6 bg-gradient-to-r from-gray-900/50 to-black/50 backdrop-blur-sm"
+      {/* Features Section - Creative 2x2 Layout */}
+      <motion.section
+        id="features"
+        className="py-12 sm:py-20 md:py-32 bg-gradient-to-br from-black via-gray-950 to-black relative overflow-hidden"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
+        transition={{ duration: 1 }}
         viewport={{ once: true }}
       >
-        <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-4 gap-8">
-            {stats.map((stat, index) => (
-              <motion.div 
-                key={index}
-                className="text-center group cursor-pointer"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                whileHover={{ scale: 1.05 }}
-              >
-                <div className="w-16 h-16 bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:rotate-12 transition-transform duration-300">
-                  <stat.icon className="w-8 h-8 text-black" />
-                </div>
-                <div className="text-4xl font-black text-white mb-2">
-                  <AnimatedCounter end={stat.number} />
-                </div>
-                <div className="text-gray-400 font-medium">{stat.label}</div>
-              </motion.div>
-            ))}
+        {/* Geometric background patterns */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute top-0 left-0 w-full h-full">
+            <div className="absolute top-1/4 left-1/4 w-32 h-32 border border-white transform rotate-45"></div>
+            <div className="absolute bottom-1/4 right-1/4 w-24 h-24 border border-white transform rotate-12"></div>
+            <div className="absolute top-1/2 right-1/6 w-16 h-16 bg-white rounded-full opacity-20"></div>
+            <div className="absolute bottom-1/3 left-1/6 w-20 h-20 bg-white transform rotate-45 opacity-10"></div>
           </div>
         </div>
-      </motion.section>
 
-      {/* Features Section */}
-      <motion.section 
-        className="py-20 px-6"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-      >
-        <div className="max-w-7xl mx-auto">
-          <motion.div 
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 30 }}
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 relative">
+          <motion.div
+            className="text-center mb-12 sm:mb-20"
+            initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 1.2 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-5xl font-black mb-6">
-              <span className="bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">
-                Why Students Choose Us
+            <motion.h2
+              className="text-3xl sm:text-4xl md:text-6xl font-black tracking-wider mb-4 sm:mb-8 relative"
+            >
+              <span className="bg-gradient-to-r from-white via-gray-100 to-white bg-clip-text text-transparent">
+                Why Choose Us
               </span>
-            </h2>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-              We've eliminated every pain point in student housing search with cutting-edge technology
-            </p>
+              <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-white"></div>
+            </motion.h2>
+            <motion.div
+              className="w-20 sm:w-32 h-0.5 bg-gradient-to-r from-transparent via-white to-transparent mx-auto mt-6"
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              transition={{ duration: 1.5, delay: 0.5 }}
+              viewport={{ once: true }}
+            />
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 max-w-4xl mx-auto">
             {[
-              { icon: Shield, title: "100% Verified", desc: "Every property owner is verified. No fake listings, no scammers.", color: "from-green-400 to-emerald-500" },
-              { icon: Zap, title: "AI-Powered Matching", desc: "Our AI finds your perfect match based on budget, preferences, and location.", color: "from-blue-400 to-cyan-500" },
-              { icon: Users, title: "Direct Connection", desc: "Chat directly with property owners. No middlemen charging extra fees.", color: "from-purple-400 to-pink-500" }
-            ].map((feature, index) => (
-              <motion.div 
-                key={index}
-                className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/10 group hover:border-white/20 transition-all duration-300"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
-                viewport={{ once: true }}
-                whileHover={{ scale: 1.02, y: -5 }}
-              >
-                <div className={`w-16 h-16 bg-gradient-to-br ${feature.color} rounded-2xl flex items-center justify-center mb-6 group-hover:rotate-12 transition-transform duration-300`}>
-                  <feature.icon className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-2xl font-bold text-white mb-4">{feature.title}</h3>
-                <p className="text-gray-400 leading-relaxed">{feature.desc}</p>
-              </motion.div>
-            ))}
+              { 
+                title: "Safe & Secure", 
+                icon: Shield, 
+                description: "100% verified listings with AI-powered fraud detection. Direct contact with property owners only.",
+                pattern: "diagonal-lines",
+                accent: "top-right"
+              },
+              { 
+                title: "Lightning Fast", 
+                icon: Zap, 
+                description: "Advanced matching algorithms find your perfect accommodation in under 60 seconds.",
+                pattern: "dots",
+                accent: "top-left"
+              },
+              { 
+                title: "24/7 Support", 
+                icon: MessageCircle, 
+                description: "Always-on community support with real-time assistance via WhatsApp and in-app chat.",
+                pattern: "grid",
+                accent: "bottom-right"
+              },
+              { 
+                title: "Zero Fees", 
+                icon: CheckCircle, 
+                description: "No hidden charges, no agent fees, no commission. Connect directly and save money.",
+                pattern: "circles",
+                accent: "bottom-left"
+              }
+            ].map((feature, index) => {
+              const IconComponent = feature.icon;
+              return (
+                <motion.div
+                  key={index}
+                  className="group relative"
+                  initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ duration: 0.8, delay: index * 0.15 }}
+                  viewport={{ once: true }}
+                >
+                  {/* Main card */}
+                  <div className="relative bg-white text-black p-6 sm:p-8 rounded-3xl shadow-2xl border-4 border-black hover:scale-105 transition-all duration-500 overflow-hidden">
+                    {/* Background patterns based on feature */}
+                    <div className="absolute inset-0 opacity-5">
+                      {feature.pattern === "diagonal-lines" && (
+                        <div className="absolute inset-0" style={{
+                          backgroundImage: `repeating-linear-gradient(45deg, black, black 2px, transparent 2px, transparent 12px)`
+                        }}></div>
+                      )}
+                      {feature.pattern === "dots" && (
+                        <div className="absolute inset-0" style={{
+                          backgroundImage: `radial-gradient(circle at 25% 25%, black 2px, transparent 2px)`,
+                          backgroundSize: '20px 20px'
+                        }}></div>
+                      )}
+                      {feature.pattern === "grid" && (
+                        <div className="absolute inset-0" style={{
+                          backgroundImage: `linear-gradient(black 1px, transparent 1px), linear-gradient(90deg, black 1px, transparent 1px)`,
+                          backgroundSize: '20px 20px'
+                        }}></div>
+                      )}
+                      {feature.pattern === "circles" && (
+                        <div className="absolute inset-0" style={{
+                          backgroundImage: `radial-gradient(circle at 50% 50%, transparent 8px, black 8px, black 10px, transparent 10px)`,
+                          backgroundSize: '30px 30px'
+                        }}></div>
+                      )}
+                    </div>
+
+                    {/* Accent corner */}
+                    <div className={`absolute w-16 h-16 bg-black ${
+                      feature.accent === "top-right" ? "top-0 right-0 rounded-bl-3xl" :
+                      feature.accent === "top-left" ? "top-0 left-0 rounded-br-3xl" :
+                      feature.accent === "bottom-right" ? "bottom-0 right-0 rounded-tl-3xl" :
+                      "bottom-0 left-0 rounded-tr-3xl"
+                    }`}></div>
+
+                    {/* Icon container */}
+                    <div className="relative mb-6">
+                      <div className="relative w-16 h-16 sm:w-20 sm:h-20 bg-black rounded-full flex items-center justify-center mx-auto group-hover:rotate-12 transition-transform duration-500 shadow-lg">
+                        <IconComponent className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
+                        {/* Icon glow effect */}
+                        <div className="absolute inset-0 bg-black rounded-full animate-pulse opacity-20"></div>
+                      </div>
+                      
+                      {/* Floating accent shapes */}
+                      <div className="absolute -top-2 -right-2 w-4 h-4 bg-black rounded-full opacity-60 group-hover:scale-150 transition-transform duration-500"></div>
+                      <div className="absolute -bottom-1 -left-1 w-3 h-3 bg-black transform rotate-45 opacity-40 group-hover:rotate-90 transition-transform duration-500"></div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="relative text-center">
+                      <h3 className="text-xl sm:text-2xl font-black mb-4 tracking-wider group-hover:tracking-widest transition-all duration-300">
+                        {feature.title}
+                      </h3>
+                      
+                      {/* Separator line */}
+                      <div className="w-12 h-0.5 bg-black mx-auto mb-4 group-hover:w-16 transition-all duration-300"></div>
+                      
+                      <p className="text-gray-800 text-sm sm:text-base leading-relaxed font-medium">
+                        {feature.description}
+                      </p>
+                    </div>
+
+                    {/* Hover overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-transparent via-black/5 to-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></div>
+                  </div>
+
+                  {/* Shadow card behind */}
+                  <div className="absolute inset-0 bg-black rounded-3xl transform translate-x-2 translate-y-2 -z-10 group-hover:translate-x-3 group-hover:translate-y-3 transition-transform duration-500"></div>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {/* Bottom accent */}
+          <div className="flex justify-center mt-12 sm:mt-16">
+            <div className="flex items-center space-x-4">
+              <div className="w-8 h-0.5 bg-white"></div>
+              <div className="w-3 h-3 bg-white rounded-full animate-pulse"></div>
+              <div className="w-16 h-0.5 bg-white"></div>
+              <div className="w-3 h-3 bg-white rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
+              <div className="w-8 h-0.5 bg-white"></div>
+            </div>
           </div>
         </div>
       </motion.section>
 
-      {/* Testimonials */}
-      <motion.section 
-        className="py-20 px-6 bg-gradient-to-r from-amber-900/20 via-orange-900/20 to-red-900/20"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-      >
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.h2 
-            className="text-4xl md:text-5xl font-black mb-16"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <span className="bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">
-              Student Success Stories
-            </span>
-          </motion.h2>
+      {/* Main Content Section - Mobile optimized */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-16 items-center">
+          <section className="space-y-6 sm:space-y-8">
+            <div className={`transform transition-all duration-1000 ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
+              {/* Status Badge */}
+              <div className="inline-flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2 bg-gray-800 rounded-full mb-6 sm:mb-8">
+                <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
+                <span className="text-xs sm:text-sm font-semibold text-gray-100">UNILAG's #1 Trusted Platform</span>
+              </div>
 
-          <div className="relative h-64 mb-8">
-            {testimonials.map((testimonial, index) => (
-              <motion.div
-                key={index}
-                className={`absolute inset-0 transition-opacity duration-500 ${
-                  index === currentTestimonial ? 'opacity-100' : 'opacity-0'
-                }`}
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ 
-                  scale: index === currentTestimonial ? 1 : 0.8,
-                  opacity: index === currentTestimonial ? 1 : 0 
-                }}
-                transition={{ duration: 0.5 }}
-              >
-                <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10">
-                  <div className="flex justify-center mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="w-5 h-5 text-amber-400 fill-current" />
-                    ))}
+              {/* Main Headline */}
+              <h1 className="text-4xl sm:text-5xl md:text-7xl font-black leading-[1.1] mb-6 sm:mb-8 tracking-tight text-white">
+                <span className="block">
+                  Find Your Perfect
+                </span>
+                <span className="block text-white">
+                  Student Home
+                </span>
+                <span className="block text-3xl sm:text-4xl md:text-5xl text-gray-400">
+                  in UNILAG
+                </span>
+              </h1>
+
+              {/* Subtitle */}
+              <p className="text-lg sm:text-xl text-gray-400 max-w-2xl leading-relaxed mb-6 sm:mb-8">
+                The fastest, safest way to find bedspace and private rooms. Connect directly with verified property owners.
+              </p>
+
+              {/* CTA Section */}
+              <div className="space-y-4 sm:space-y-6 mb-8 sm:mb-12">
+                <form onSubmit={submitWaitlist} className="flex flex-col sm:flex-row gap-3 max-w-lg">
+                  <div className="flex-1">
+                    <input 
+                      value={waitEmail} 
+                      onChange={(e) => setWaitEmail(e.target.value)} 
+                      type="email" 
+                      placeholder="Enter your email"
+                      className="w-full px-4 py-3 sm:px-6 sm:py-4 rounded-lg border border-gray-700 bg-gray-800 placeholder-gray-400 text-white focus:outline-none focus:border-white transition-colors duration-200"
+                      disabled={status.wait === 'loading'}
+                    />
                   </div>
-                  <blockquote className="text-xl md:text-2xl text-white mb-6 italic leading-relaxed">
-                    "{testimonial.text}"
-                  </blockquote>
-                  <div className="text-amber-400 font-semibold text-lg">{testimonial.name}</div>
-                  <div className="text-gray-400">{testimonial.course}</div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+                  <button 
+                    type="submit" 
+                    disabled={status.wait === 'loading'}
+                    className="px-6 py-3 sm:px-8 sm:py-4 rounded-lg bg-white text-black font-bold flex items-center justify-center gap-3 hover:bg-gray-200 transition-colors duration-200 disabled:opacity-70 disabled:cursor-not-allowed"
+                  >
+                    {status.wait === 'loading' ? (
+                      <div className="w-5 h-5 border-2 border-gray-400 border-t-black rounded-full animate-spin" />
+                    ) : (
+                      <Send className="w-5 h-5" />
+                    )}
+                    <span>Join Waitlist</span>
+                  </button>
+                </form>
 
-          <div className="flex justify-center space-x-2">
+                {status.wait && status.wait !== 'loading' && (
+                  <div className={`flex items-center gap-3 px-4 py-3 rounded-lg border ${
+                    status.wait === 'success'
+                      ? 'text-white bg-gray-800 border-gray-600'
+                      : 'text-red-400 bg-red-500/10 border-red-500/20'
+                  }`}>
+                    {status.wait === 'success' && <CheckCircle className="w-5 h-5" />}
+                    <span>
+                      {status.wait === 'success' 
+                        ? "You're in! We'll notify you when we launch."
+                        : status.wait
+                      }
+                    </span>
+                  </div>
+                )}
+
+                {/* Action Button */}
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <a 
+                    href={WHATSAPP_GROUP} 
+                    target="_blank" 
+                    rel="noreferrer" 
+                    className="inline-flex items-center justify-center gap-3 px-6 py-4 rounded-lg border-2 border-white text-white hover:bg-white hover:text-black transition-colors duration-200 font-semibold"
+                  >
+                    <MessageCircle className="w-5 h-5" />
+                    <span>Join WhatsApp Group</span>
+                  </a>
+                </div>
+              </div>
+
+              {/* Feature Pills */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="p-3 sm:p-4 bg-gray-800 rounded-lg border border-gray-700 hover:border-gray-600 transition-colors duration-200">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-lg flex items-center justify-center">
+                      <Shield className="w-4 h-4 sm:w-6 sm:h-6 text-black" />
+                    </div>
+                    <div>
+                      <div className="font-bold text-white text-base sm:text-lg">100% Scam-Free</div>
+                      <div className="text-xs sm:text-sm text-gray-400">Verified listings only</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-3 sm:p-4 bg-gray-800 rounded-lg border border-gray-700 hover:border-gray-600 transition-colors duration-200">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-lg flex items-center justify-center">
+                      <Zap className="w-4 h-4 sm:w-6 sm:h-6 text-black" />
+                    </div>
+                    <div>
+                      <div className="font-bold text-white text-base sm:text-lg">Lightning Fast</div>
+                      <div className="text-xs sm:text-sm text-gray-400">Find homes in minutes</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Visual Section - Mobile optimized */}
+          <section className={`transform transition-all duration-1000 ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
+            <div className="relative">
+              <div className="relative bg-gray-800 rounded-2xl p-4 sm:p-8 border border-gray-700 shadow-lg">                  
+                <div className="relative grid grid-cols-1 gap-4 sm:gap-6">
+                  {/* Property Cards */}
+                  <div className="group bg-gray-700 rounded-lg p-4 sm:p-6 border border-gray-600 hover:border-white transition-colors duration-200">
+                    <div className="flex items-start justify-between mb-3 sm:mb-4">
+                      <div className="w-10 h-10 sm:w-16 sm:h-16 bg-white rounded-xl flex items-center justify-center shadow-lg">
+                        <Home className="w-5 h-5 sm:w-8 sm:h-8 text-black" />
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="bg-gray-600 text-gray-300 px-2 py-1 rounded-full text-xs font-bold">
+                          VERIFIED
+                        </div>
+                      </div>
+                    </div>
+                    <h3 className="font-bold text-lg sm:text-xl mb-2 text-white">MOREMI HALL</h3>
+                    <div className="flex items-center gap-2 sm:gap-4 text-gray-400 text-xs sm:text-sm mb-3 sm:mb-4">
+                      <span className="font-semibold text-white">₦300,000</span>
+                      <span>•</span>
+                      <span>1 Bedspace available</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="flex text-white">
+                        {[...Array(5)].map((_, i) => (
+                          <Star key={i} className="w-3 h-3 sm:w-4 sm:h-4 fill-current" />
+                        ))}
+                      </div>
+                      <span className="text-xs sm:text-sm text-gray-400">(4.9) 127 reviews</span>
+                    </div>
+                  </div>
+
+                  <div className="group bg-gray-700 rounded-lg p-4 sm:p-6 border border-gray-600 hover:border-white transition-colors duration-200">
+                    <div className="flex items-start justify-between mb-3 sm:mb-4">
+                      <div className="w-10 h-10 sm:w-16 sm:h-16 bg-white rounded-xl flex items-center justify-center shadow-lg">
+                        <Users className="w-5 h-5 sm:w-8 sm:h-8 text-black" />
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="bg-gray-600 text-gray-300 px-2 py-1 rounded-full text-xs font-bold">
+                          POPULAR
+                        </div>
+                      </div>
+                    </div>
+                    <h3 className="font-bold text-lg sm:text-xl mb-2 text-white">MAKAMA</h3>
+                    <div className="flex items-center gap-2 sm:gap-4 text-gray-400 text-xs sm:text-sm mb-3 sm:mb-4">
+                      <span className="font-semibold text-white">₦255,000</span>
+                      <span>•</span>
+                      <span>4 MAN ROOM BEDSPACE</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="flex text-white">
+                        {[...Array(4)].map((_, i) => (
+                          <Star key={i} className="w-3 h-3 sm:w-4 sm:h-4 fill-current" />
+                        ))}
+                        <Star className="w-3 h-3 sm:w-4 sm:h-4 text-gray-500" />
+                      </div>
+                      <span className="text-xs sm:text-sm text-gray-400">(4.2) 89 reviews</span>
+                    </div>
+                  </div>
+
+                  {/* Features Grid */}
+                  <div className="grid grid-cols-3 gap-2 sm:gap-3 mt-2 sm:mt-4">
+                    <div className="bg-gray-700 rounded-xl p-2 sm:p-3 text-center border border-gray-600">
+                      <Shield className="w-4 h-4 sm:w-6 sm:h-6 text-white mx-auto mb-1 sm:mb-2" />
+                      <div className="text-xs font-bold text-gray-300">Verified</div>
+                    </div>
+                    <div className="bg-gray-700 rounded-xl p-2 sm:p-3 text-center border border-gray-600">
+                      <MessageCircle className="w-4 h-4 sm:w-6 sm:h-6 text-white mx-auto mb-1 sm:mb-2" />
+                      <div className="text-xs font-bold text-gray-300">Direct Chat</div>
+                    </div>
+                    <div className="bg-gray-700 rounded-xl p-2 sm:p-3 text-center border border-gray-600">
+                      <Zap className="w-4 h-4 sm:w-6 sm:h-6 text-white mx-auto mb-1 sm:mb-2" />
+                      <div className="text-xs font-bold text-gray-300">No Fees</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+
+      {/* Stats Section - Compact */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
+        <div className="relative bg-gray-900 rounded-3xl p-6 sm:p-12 backdrop-blur-xl border border-gray-700 shadow-2xl overflow-hidden">
+          <div className="relative text-center mb-8 sm:mb-12">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-2 sm:mb-4">
+              Trusted by Thousands
+            </h2>
+            <p className="text-lg sm:text-xl text-gray-400 font-light">Join the fastest-growing community</p>
+          </div>
+          
+          <div className="relative grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8">
+            {stats.map((stat, index) => {
+              const IconComponent = stat.icon;
+              return (
+                <div key={index} className="text-center">
+                  <div className="w-12 h-12 sm:w-20 sm:h-20 mx-auto mb-2 sm:mb-4">
+                    <div className="w-12 h-12 sm:w-20 sm:h-20 bg-gray-800 rounded-2xl flex items-center justify-center border border-gray-600">
+                      <IconComponent className="w-6 h-6 sm:w-10 sm:h-10 text-white" />
+                    </div>
+                  </div>
+                  <div className="text-2xl sm:text-4xl md:text-5xl font-black text-white mb-1 sm:mb-2">
+                    <AnimatedCounter end={stat.number} />
+                  </div>
+                  <div className="text-gray-400 font-medium text-sm sm:text-base">{stat.label}</div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works - Compact */}
+      <section id="how" className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
+        <div className="text-center mb-8 sm:mb-16">
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-black text-white mb-4 sm:mb-6">
+            How It Works
+          </h2>
+          <p className="text-lg sm:text-2xl text-gray-400 font-light">Simple steps to find your home</p>
+        </div>
+        
+        <div className="grid md:grid-cols-3 gap-6 sm:gap-8">
+          {[
+            { step: "01", title: "Search & Filter", description: "Browse verified listings by location and price.", icon: Globe },
+            { step: "02", title: "Direct Chat", description: "Message property owners directly. No middlemen.", icon: MessageCircle },
+            { step: "03", title: "Move In Safely", description: "Secure your space with verified documentation and community trust.", icon: CheckCircle }
+          ].map((step, index) => {
+            const IconComponent = step.icon;
+            
+            return (
+              <div key={index} className="relative text-center">
+                <div className="w-16 h-16 sm:w-24 sm:h-24 bg-white rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 shadow-2xl">
+                  <IconComponent className="w-8 h-8 sm:w-12 sm:h-12 text-black" />
+                </div>
+                <div className="text-4xl sm:text-8xl font-black text-gray-800 mb-2 sm:mb-4">{step.step}</div>
+                <h3 className="text-lg sm:text-2xl font-bold text-white mb-2 sm:mb-4">{step.title}</h3>
+                <p className="text-gray-400 leading-relaxed text-sm sm:text-base">{step.description}</p>
+                
+                {index < 2 && (
+                  <div className="hidden md:block absolute top-8 sm:top-12 left-full w-4 sm:w-8 h-0.5 bg-white/20 transform translate-x-4"></div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Testimonials - Compact */}
+      <section id="testimonials" className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
+        <div className="text-center mb-8 sm:mb-16">
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-black text-white mb-4 sm:mb-6">
+            Success Stories
+          </h2>
+          <p className="text-lg sm:text-2xl text-gray-400 font-light">Hear from students who found their home</p>
+        </div>
+        
+        <div className="relative max-w-4xl mx-auto">
+          <div className="overflow-hidden rounded-3xl">
+            <div 
+              className="flex transition-transform duration-700 ease-out"
+              style={{ transform: `translateX(-${currentTestimonial * 100}%)` }}
+            >
+              {testimonials.map((testimonial, index) => (
+                <div key={index} className="w-full flex-shrink-0 p-4 sm:p-12">
+                  <div className="relative bg-gray-900 rounded-3xl p-6 sm:p-12 border border-gray-700 text-center shadow-2xl overflow-hidden">
+                    <div className="relative">
+                      <div className="w-12 h-12 sm:w-20 sm:h-20 bg-white rounded-full mx-auto mb-4 sm:mb-8 flex items-center justify-center shadow-2xl">
+                        <Users className="w-6 h-6 sm:w-10 sm:h-10 text-black" />
+                      </div>
+                      
+                      <div className="flex justify-center mb-4 sm:mb-6">
+                        {[...Array(testimonial.rating)].map((_, i) => (
+                          <Star key={i} className="w-4 h-4 sm:w-6 sm:h-6 text-white fill-current" />
+                        ))}
+                      </div>
+                      
+                      <p className="text-lg sm:text-2xl text-gray-300 mb-4 sm:mb-8 italic leading-relaxed font-light">
+                        "{testimonial.text}"
+                      </p>
+                      <h4 className="text-lg sm:text-2xl font-bold text-white mb-1 sm:mb-2">{testimonial.name}</h4>
+                      <p className="text-gray-400 font-medium text-sm sm:text-base">{testimonial.course} Student</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          <div className="flex justify-center mt-6 sm:mt-12 space-x-4">
             {testimonials.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentTestimonial(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  index === currentTestimonial ? 'bg-amber-400 w-8' : 'bg-gray-600'
+                className={`w-3 h-3 sm:w-4 sm:h-4 rounded-full transition-all duration-500 ${
+                  currentTestimonial === index 
+                    ? 'bg-white scale-125' 
+                    : 'bg-gray-600 hover:bg-gray-500'
                 }`}
               />
             ))}
           </div>
         </div>
-      </motion.section>
+      </section>
 
-      {/* Contact Section */}
-      <motion.section 
-        className="py-20 px-6"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-      >
-        <div className="max-w-4xl mx-auto">
-          <motion.div 
-            className="text-center mb-12"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl md:text-5xl font-black mb-6">
-              <span className="bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">
-                Get In Touch
-              </span>
+      {/* Contact Section - Compact */}
+      <section id="contact" className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
+        <div className="relative bg-gray-900 rounded-3xl p-6 sm:p-12 border border-gray-700 shadow-2xl overflow-hidden">
+          <div className="relative text-center mb-8 sm:mb-12">
+            <h2 className="text-3xl sm:text-5xl md:text-6xl font-black text-white mb-4 sm:mb-6">
+              Contact Us
             </h2>
-            <p className="text-xl text-gray-400">
-              Have questions? Want to partner with us? We'd love to hear from you!
+            <p className="text-lg sm:text-xl text-gray-400 max-w-3xl mx-auto font-light">
+              Have questions or want to list your property? We're here to help.
             </p>
-          </motion.div>
+          </div>
+          
+          <div className="relative grid md:grid-cols-2 gap-8 sm:gap-12">
+            {/* Contact Info */}
+            <div className="space-y-6 sm:space-y-8">
+              <div className="space-y-4 sm:space-y-6">
+                {[
+                  { icon: Mail, title: "Email Us", detail: "hello@blackhousing.ng" },
+                  { icon: Phone, title: "Call Us", detail: "+234 800 000 0000" },
+                  { icon: MessageCircle, title: "WhatsApp", detail: "Join our community chat" }
+                ].map((contact, idx) => {
+                  const IconComponent = contact.icon;
+                  return (
+                    <div key={idx} className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-gray-800 rounded-2xl border border-gray-600">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-xl flex items-center justify-center shadow-lg">
+                        <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
+                      </div>
+                      <div>
+                        <div className="font-semibold text-white text-sm sm:text-base">{contact.title}</div>
+                        <div className="text-gray-400 text-xs sm:text-sm">{contact.detail}</div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
 
-          <motion.div 
-            className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            <form onSubmit={submitContact} className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                <input
-                  type="text"
-                  placeholder="Your Name"
-                  value={contact.name}
-                  onChange={(e) => setContact(prev => ({ ...prev, name: e.target.value }))}
-                  className="px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 transition-all duration-300"
+              <div className="p-4 sm:p-6 bg-gray-800 rounded-2xl border border-gray-600">
+                <h3 className="font-bold text-white mb-3 text-base sm:text-lg">Office Hours</h3>
+                <div className="space-y-2 text-xs sm:text-sm">
+                  {[
+                    { day: "Monday - Friday", hours: "9:00 AM - 6:00 PM" },
+                    { day: "Saturday", hours: "10:00 AM - 4:00 PM" },
+                    { day: "Sunday", hours: "Closed" }
+                  ].map((schedule, idx) => (
+                    <div key={idx} className="flex justify-between">
+                      <span className="text-gray-400">{schedule.day}</span>
+                      <span className="text-gray-200 font-medium">{schedule.hours}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Contact Form */}
+            <form onSubmit={submitContact} className="space-y-4 sm:space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+                <input 
+                  value={contact.name} 
+                  onChange={(e) => setContact({ ...contact, name: e.target.value })} 
+                  placeholder="Your name"
+                  className="px-4 py-3 sm:px-6 sm:py-4 rounded-2xl bg-gray-800 border border-gray-600 placeholder-gray-400 outline-none focus:border-white transition-all duration-300 text-white"
                 />
-                <input
+                <input 
+                  value={contact.email} 
+                  onChange={(e) => setContact({ ...contact, email: e.target.value })} 
+                  placeholder="Your email *"
                   type="email"
-                  placeholder="Your Email *"
-                  value={contact.email}
-                  onChange={(e) => setContact(prev => ({ ...prev, email: e.target.value }))}
-                  className="px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 transition-all duration-300"
                   required
+                  className="px-4 py-3 sm:px-6 sm:py-4 rounded-2xl bg-gray-800 border border-gray-600 placeholder-gray-400 outline-none focus:border-white transition-all duration-300 text-white"
                 />
               </div>
               
-              <textarea
-                placeholder="Your Message *"
-                value={contact.message}
-                onChange={(e) => setContact(prev => ({ ...prev, message: e.target.value }))}
-                rows={6}
-                className="w-full px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-400/20 transition-all duration-300 resize-none"
+              <textarea 
+                value={contact.message} 
+                onChange={(e) => setContact({ ...contact, message: e.target.value })} 
+                placeholder="Your message *"
                 required
+                rows={4}
+                className="w-full px-4 py-3 sm:px-6 sm:py-4 rounded-2xl bg-gray-800 border border-gray-600 placeholder-gray-400 outline-none focus:border-white transition-all duration-300 text-white resize-none"
               />
-              
-              <motion.button
-                type="submit"
+
+              <button 
+                type="submit" 
                 disabled={status.contact === 'loading'}
-                className="w-full bg-gradient-to-r from-amber-500 to-orange-600 text-black font-bold py-4 rounded-2xl hover:shadow-lg hover:shadow-amber-500/25 transition-all duration-300 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                whileHover={{ scale: status.contact === 'loading' ? 1 : 1.02 }}
-                whileTap={{ scale: status.contact === 'loading' ? 1 : 0.98 }}
+                className="w-full px-6 py-3 sm:px-8 sm:py-4 rounded-2xl bg-white text-black font-bold flex items-center justify-center gap-3 transition-all duration-300 hover:bg-gray-200 disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 {status.contact === 'loading' ? (
-                  <>
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-black"></div>
-                    <span>Sending...</span>
-                  </>
+                  <div className="w-5 h-5 border-2 border-gray-400 border-t-black rounded-full animate-spin" />
                 ) : (
-                  <>
-                    <Send className="w-5 h-5" />
-                    <span>Send Message</span>
-                  </>
+                  <Send className="w-5 h-5" />
                 )}
-              </motion.button>
+                <span>Send Message</span>
+              </button>
 
-              {/* Contact Status Messages */}
               {status.contact && status.contact !== 'loading' && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className={`text-center p-3 rounded-lg ${
-                    status.contact === 'success' 
-                      ? 'bg-green-500/20 border border-green-500/30 text-green-400' 
-                      : 'bg-red-500/20 border border-red-500/30 text-red-400'
-                  }`}
-                >
-                  {status.contact === 'success' ? (
-                    <div className="flex items-center justify-center space-x-2">
-                      <CheckCircle className="w-4 h-4" />
-                      <span>Message sent successfully! We'll get back to you soon.</span>
-                    </div>
-                  ) : (
-                    <span>{status.contact}</span>
-                  )}
-                </motion.div>
+                <div className={`flex items-center gap-3 px-4 py-3 rounded-xl border ${
+                  status.contact === 'success'
+                    ? 'text-white bg-gray-800 border-gray-600'
+                    : 'text-red-400 bg-red-500/10 border-red-500/20'
+                }`}>
+                  {status.contact === 'success' && <CheckCircle className="w-5 h-5" />}
+                  <span>
+                    {status.contact === 'success' 
+                      ? "Message sent! We'll reply within 24 hours."
+                      : status.contact
+                    }
+                  </span>
+                </div>
               )}
             </form>
+          </div>
+        </div>
+      </section>
 
-            {/* Contact Info */}
-            <div className="grid md:grid-cols-3 gap-6 mt-12 pt-8 border-t border-white/10">
-              <div className="text-center">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-cyan-500 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <Mail className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="font-semibold text-white mb-2">Email</h3>
-                <p className="text-gray-400">hello@blackhousing.com</p>
-              </div>
+      {/* Final CTA Section - Compact */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
+        <div className="text-center">
+          <div className="relative bg-gray-900 rounded-3xl p-8 sm:p-16 border border-gray-700 shadow-2xl overflow-hidden">
+            <div className="relative z-10">
+              <div className="text-4xl sm:text-6xl mb-6 sm:mb-8">🏠</div>
+              <h2 className="text-3xl sm:text-5xl md:text-7xl font-black text-white mb-6 sm:mb-8 leading-tight">
+                Ready to Find Your Perfect Home?
+              </h2>
+              <p className="text-lg sm:text-2xl text-gray-400 mb-8 sm:mb-12 max-w-4xl mx-auto font-light leading-relaxed">
+                Join thousands of UNILAG students who have transformed their accommodation experience
+              </p>
               
-              <div className="text-center">
-                <div className="w-12 h-12 bg-gradient-to-br from-green-400 to-emerald-500 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <MessageCircle className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="font-semibold text-white mb-2">WhatsApp</h3>
+              <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center mb-8 sm:mb-12">
                 <a 
                   href={WHATSAPP_GROUP} 
                   target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-green-400 transition-colors duration-300"
+                  rel="noreferrer" 
+                  className="inline-flex items-center gap-3 sm:gap-4 px-8 py-4 sm:px-12 sm:py-6 bg-white text-black rounded-full shadow-2xl font-black text-lg sm:text-xl transition-all duration-300 hover:bg-gray-200 hover:scale-105"
                 >
-                  Join Community
+                  <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6" />
+                  <span>Join Community Now</span>
+                  <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6" />
                 </a>
-              </div>
-              
-              <div className="text-center">
-                <div className="w-12 h-12 bg-gradient-to-br from-purple-400 to-pink-500 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <MapPin className="w-6 h-6 text-white" />
+                
+                <div className="inline-flex items-center gap-3 sm:gap-4 px-8 py-4 sm:px-12 sm:py-6 bg-gray-800 rounded-full border border-gray-600 font-bold text-base sm:text-lg">
+                  <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                  <span>100% Free to Join</span>
                 </div>
-                <h3 className="font-semibold text-white mb-2">Location</h3>
-                <p className="text-gray-400">Lagos, Nigeria</p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-8 max-w-4xl mx-auto">
+                {[
+                  { text: "Zero Scam Guarantee" },
+                  { text: "Instant Matching" },
+                  { text: "24/7 Support" }
+                ].map((item, idx) => (
+                  <div key={idx} className="flex items-center justify-center space-x-3 text-gray-300">
+                    <div className="w-2 h-2 sm:w-3 sm:h-3 bg-white rounded-full animate-pulse"></div>
+                    <span className="font-semibold text-sm sm:text-base">{item.text}</span>
+                  </div>
+                ))}
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
-      </motion.section>
+      </section>
 
-      {/* Final CTA */}
-      <motion.section 
-        className="py-20 px-6 bg-gradient-to-r from-amber-900/30 via-orange-900/30 to-red-900/30"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-      >
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl md:text-6xl font-black mb-6">
-              <span className="bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">
-                Ready to Find Your Home?
-              </span>
-            </h2>
-            <p className="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed">
-              Join thousands of UNILAG students who've found their perfect housing through BlackHousing
+      {/* Minimal Footer */}
+      <footer className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 sm:gap-12 mb-8 sm:mb-12">
+          {/* Brand Section */}
+          <div className="md:col-span-2">
+            <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white rounded-2xl flex items-center justify-center shadow-2xl">
+                <Home className="w-6 h-6 sm:w-8 sm:h-8 text-black" />
+              </div>
+              <div>
+                <div className="text-xl sm:text-2xl font-black text-white">
+                  BLACKHOUSING
+                </div>
+                <div className="text-xs sm:text-sm text-gray-400 font-medium">Premium Student Housing Platform</div>
+              </div>
+            </div>
+            <p className="text-gray-400 leading-relaxed max-w-md mb-6 sm:mb-8 font-light text-sm sm:text-base">
+              Connecting UNILAG students with verified, safe, and affordable accommodation. No middlemen, no scams.
             </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <motion.a
-                href={WHATSAPP_GROUP}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-gradient-to-r from-green-500 to-green-600 text-white px-8 py-4 rounded-2xl font-bold hover:shadow-lg hover:shadow-green-500/25 transition-all duration-300 flex items-center space-x-2"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <MessageCircle className="w-5 h-5" />
-                <span>Join WhatsApp Community</span>
-              </motion.a>
-              
-              <motion.button
-                onClick={() => document.querySelector('input[type="email"]').focus()}
-                className="bg-gradient-to-r from-amber-500 to-orange-600 text-black px-8 py-4 rounded-2xl font-bold hover:shadow-lg hover:shadow-amber-500/25 transition-all duration-300 flex items-center space-x-2"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Star className="w-5 h-5" />
-                <span>Get Early Access</span>
-              </motion.button>
+            <div className="flex space-x-4">
+              {[
+                { href: WHATSAPP_GROUP, icon: MessageCircle },
+                { href: "mailto:hello@blackhousing.ng", icon: Mail }
+              ].map((social, idx) => {
+                const IconComponent = social.icon;
+                return (
+                  <a 
+                    key={idx}
+                    href={social.href} 
+                    target={social.href.includes('http') ? '_blank' : undefined}
+                    rel={social.href.includes('http') ? 'noreferrer' : undefined}
+                    className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-2xl flex items-center justify-center hover:bg-gray-200 transition-all duration-300 shadow-lg"
+                  >
+                    <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
+                  </a>
+                );
+              })}
             </div>
-          </motion.div>
-        </div>
-      </motion.section>
+          </div>
 
-      {/* Footer */}
-      <footer className="py-12 px-6 border-t border-white/10">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row items-center justify-between">
-            <div className="flex items-center space-x-3 mb-4 md:mb-0">
-              <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-orange-600 rounded-lg flex items-center justify-center">
-                <Home className="w-5 h-5 text-black" />
-              </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">
-                BlackHousing
-              </span>
+          {/* Quick Links */}
+          <div>
+            <h3 className="text-lg sm:text-xl font-bold text-white mb-4 sm:mb-6">Quick Links</h3>
+            <ul className="space-y-3 sm:space-y-4">
+              {[
+                { href: "#features", text: "Features" },
+                { href: "#how", text: "How It Works" },
+                { href: "#testimonials", text: "Reviews" },
+                { href: "#contact", text: "Contact" }
+              ].map((link, idx) => (
+                <li key={idx}>
+                  <a 
+                    href={link.href} 
+                    className="text-gray-400 hover:text-white transition-colors duration-300 font-medium text-sm sm:text-base"
+                  >
+                    {link.text}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Support */}
+          <div>
+            <h3 className="text-lg sm:text-xl font-bold text-white mb-4 sm:mb-6">Support</h3>
+            <ul className="space-y-3 sm:space-y-4">
+              {[
+                { href: "#", text: "Help Center" },
+                { href: "#", text: "Safety Tips" },
+                { href: "#", text: "Property Owners" },
+                { href: "#", text: "Terms & Privacy" }
+              ].map((link, idx) => (
+                <li key={idx}>
+                  <a 
+                    href={link.href} 
+                    className="text-gray-400 hover:text-white transition-colors duration-300 font-medium text-sm sm:text-base"
+                  >
+                    {link.text}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Bottom Section */}
+        <div className="border-t border-gray-700 pt-6 sm:pt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 sm:gap-6">
+            <div className="text-gray-400 text-xs sm:text-sm font-light text-center md:text-left">
+              © 2024 BLACKHOUSING. All rights reserved. Made with ❤️ for UNILAG students.
             </div>
             
-            <div className="flex items-center space-x-6 text-gray-400">
-              <span className="text-sm">© 2025 BlackHousing. All rights reserved.</span>
-              <div className="flex items-center space-x-4">
-                <a href="#" className="hover:text-white transition-colors duration-300">Privacy</a>
-                <a href="#" className="hover:text-white transition-colors duration-300">Terms</a>
-                <a 
-                  href={WHATSAPP_GROUP} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="hover:text-green-400 transition-colors duration-300"
-                >
-                  <MessageCircle className="w-5 h-5" />
-                </a>
+            <div className="flex items-center gap-4 sm:gap-6 text-xs sm:text-sm">
+              <div className="flex items-center gap-2 text-gray-400">
+                <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                <span>Platform Status: Online</span>
+              </div>
+              <div className="text-gray-400">
+                🇳🇬 Proudly Nigerian
               </div>
             </div>
           </div>
